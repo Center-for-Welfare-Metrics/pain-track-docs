@@ -2,6 +2,10 @@
 
 This document summarizes the technologies, environments, deployment paths, integrations, and configuration surfaces described in this repository.
 
+Classification rule used in this document:
+
+- statements about code, deployment, and environment variables are directly confirmed by the source material unless a statement is explicitly labeled as inferred from structure
+
 ## Stack Summary
 
 ### Old system
@@ -51,7 +55,7 @@ This document summarizes the technologies, environments, deployment paths, integ
 
 ## Deployment Model
 
-Current understanding for both generations:
+Directly confirmed for both generations:
 
 1. Code is pushed to GitHub.
 2. Frontend deployment is tied to Herikle-controlled GitHub ownership because Vercel is using the free plan.
@@ -71,7 +75,7 @@ Recommended improvement already identified in the source documents:
 
 ### Old system
 
-The old system appears to be treated as a production-like legacy environment kept online mainly for historical access.
+The old system is treated as a production-like legacy environment kept online mainly for historical access.
 
 ### Current system
 
@@ -151,7 +155,7 @@ The legacy system depends on an additional service used for episode-related calc
 
 Operational implication:
 
-- if this service changes or disappears, old-system episode calculations may fail or return incorrect results
+- inferred from structure: if this service changes or disappears, old-system episode calculations may fail or return incorrect results
 
 ### AWS SES
 
@@ -205,26 +209,24 @@ The important architectural difference on the frontend is query handling.
 
 The current frontend uses React Query for server-state management.
 
-Why this is better:
+Directly confirmed characteristics:
 
-- loading, error, and success states are handled more consistently
-- caching and refetch behavior are centralized
-- stale data handling is more explicit
-- repeated request logic is less likely to be duplicated across screens
+- loading, error, and success handling is managed through React Query
+- caching and refetch behavior is centralized in the query layer
+- stale data handling is configured explicitly through the query layer
+- server-state request logic is managed through React Query rather than ad hoc component code
 
 #### Old frontend query handling
 
 The old frontend handles queries in a more manual way.
 
-Why that is worse:
+Directly confirmed characteristics:
 
-- request logic is more likely to be repeated in multiple places
-- loading and error states tend to be handled inconsistently
-- caching behavior is weaker or implicit instead of being managed centrally
-- invalidation and refresh behavior is harder to reason about
-- the UI becomes more tightly coupled to fetch timing and component-level state
-
-In practice, this raises maintenance cost and makes regressions in data-loading flows more likely.
+- request logic is handled more manually across the frontend
+- loading and error handling is not managed through a dedicated query-state library
+- caching behavior is not centralized through React Query
+- invalidation and refresh behavior are handled outside a dedicated query layer
+- data-fetch timing remains more coupled to component-level state
 
 ### Backend stack
 
@@ -244,7 +246,6 @@ The main language difference is:
 
 - frontend uses ReactJS with NextJS, TypeScript, and React Query for server-state handling
 - backend uses Node.js with Express and TypeScript
-- codebase appears more organized than the old system
 - still needs dependency updates and better test coverage
 
 ## Infrastructure Posture
@@ -257,7 +258,7 @@ So local startup guidance exists and the basic workflow is documented.
 
 ### Operational maturity limits
 
-The main issue is not lack of explanation. The setup is understandable, but the supporting operational controls are still weak and, in several areas, absent.
+The setup is documented, but several supporting operational controls are absent.
 
 The following capabilities do not currently exist in the documented setup:
 
@@ -270,4 +271,4 @@ The following capabilities do not currently exist in the documented setup:
 
 ## Operational Summary
 
-Pain Track currently runs as a GitHub-backed, Vercel-and-Cloud-Run application stack on top of MongoDB Atlas, with additional dependencies on AWS SES, Google services, and OpenAI. The setup is documented well enough to understand how it runs, but its operational posture is still weak because key controls such as CI, branch protection, observability, secret rotation, backups, and abuse protections are not in place.
+Pain Track runs as a GitHub-backed, Vercel-and-Cloud-Run application stack on top of MongoDB Atlas, with additional dependencies on AWS SES, Google services, and OpenAI. The repository documentation directly confirms how the stack is deployed and which services it depends on, and it also directly confirms that controls such as CI, branch protection, observability, secret rotation, backups, and abuse protections are not in place.

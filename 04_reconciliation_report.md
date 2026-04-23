@@ -45,6 +45,15 @@ Users can comment, which allows some level of discussion, but they still cannot 
 
 So the current project should be understood as the next stage after the old Pain Track app, not as a separate product with an unrelated origin.
 
+## Planned in old docs but not available in the current project
+
+Except for the gaps listed in this section, the rest of this document still applies to the current project at a high level. The current project remains a continuation of the same core product, with the same main functional purpose and most of the same core flows. The points below are the main places where the old documentation should be read as planned or legacy-oriented rather than as a description of what exists today.
+
+- The forum implementation described in the old documentation was not delivered in the current project. The old plan described a public Pain-Tracks Forum where authors would submit Pain Episodes to a public repository, submitted episodes would become discussion spaces, and each segment would act as a thread context.
+- The old plan also said that authors would be able to incorporate or not incorporate suggestions, and that dissatisfied participants could create their own Pain Episodes in response. That proposal-and-response workflow is not implemented in the current project.
+- What exists today is much narrower. As documented in the current flow documentation, discussions can be opened in patient, episode, track, and segment contexts, and users can create discussions and add comments. However, this is still a comment-section-like feature, not the planned forum workflow.
+- The old documentation also defined an explicit database naming and reference-data convention, especially around `rd_*` prefixed reference-data collections and a more formalized naming scheme. That legacy convention is not carried into the current project as a documented or visible reference-data layer in the same way. Some underscore-based field naming still appears in the current data model, but the old `rd_*` structure should not be treated as an implemented part of the current system.
+
 ## Short summary
 
 The old Pain Track app was a working implementation of the original core system, but it is now outdated.
