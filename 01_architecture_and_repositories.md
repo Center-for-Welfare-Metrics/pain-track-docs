@@ -71,6 +71,18 @@ Pain Track uses MongoDB with Mongoose. Relationships are not enforced like SQL f
 - Mongoose virtuals for reverse lookups and counters
 - manual cleanup in use cases and Mongoose implementations
 
+### Shared legacy Atlas infrastructure
+
+A read-only infrastructure review on 21 August 2026 confirmed that historical Pain Track and WM Platform/WelfareData data share Atlas infrastructure in the CWM `Pain App` project.
+
+The active `PainCluster` in GCP `europe-west1` contains the Pain-Track databases `paintrack`, `newpaintrackapp`, and `newpaintrackappprod`, together with the WM Platform-related databases `wmplatform` and `wmplatform_danger_13131717`.
+
+This corroborates the repository implementation in which the old Pain Track backend uses its MongoDB connection to access a second database through `WM_DB`. It also explains why the existing Atlas dashboard references for Pain Track and the historical WM Platform models should be treated as parts of one legacy data estate rather than unrelated systems.
+
+The exact database selected by the currently deployed WelfareData backend has not yet been re-verified from its live runtime configuration. Therefore this shared-cluster relationship is strong infrastructure provenance, not proof of the exact current WelfareData runtime database.
+
+The legacy cluster must not be reused as a development or Processograms staging environment. Any future migration should first preserve/export required data and then use a separately controlled target.
+
 ### Relation Mechanics
 
 #### Direct references
