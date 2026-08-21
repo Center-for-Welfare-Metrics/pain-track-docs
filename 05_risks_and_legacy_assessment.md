@@ -8,20 +8,32 @@ The old Pain Track system should be treated as a legacy system kept online mainl
 
 ### Main legacy risks
 
-1. unknown critical data remains in MongoDB
-2. broken environment-dependent integrations exist
-3. the backend is untyped JavaScript
-4. dependencies are outdated
-5. tests are missing or insufficient
-6. frontend styling patterns are mixed
-7. silent failures are possible
-8. documentation is incomplete
-9. deployment traceability is poor
-10. external dependencies such as the calculus service increase fragility
+1. important historical Pain-Track and WM Platform/WelfareData data remains in the shared legacy MongoDB Atlas estate and has not yet been fully exported or classified
+2. no Atlas backup or recoverable snapshot was enabled for the relevant active legacy cluster at the 21 August 2026 review, increasing continuity risk until a controlled export is completed
+3. broken environment-dependent integrations exist
+4. the backend is untyped JavaScript
+5. dependencies are outdated
+6. tests are missing or insufficient
+7. frontend styling patterns are mixed
+8. silent failures are possible
+9. documentation is incomplete
+10. deployment traceability is poor
+11. external dependencies such as the calculus service increase fragility
 
-### Legacy shutdown caution
+### Legacy shutdown and migration caution
 
-The source documents explicitly warn that important historical information could be lost if the old system is shut down before the MongoDB data is reviewed.
+The legacy Atlas estate contains identifiable Pain-Track and WM Platform/WelfareData databases and must not be shut down, transferred, or repurposed merely because newer applications exist.
+
+Before retirement or migration:
+
+1. verify which databases are still used by live services;
+2. create controlled exports/backups of required historical data;
+3. validate those exports;
+4. record remaining application and external-service dependencies;
+5. establish durable institutional ownership and recovery;
+6. migrate or archive data before removing the source environment.
+
+A clean WFI staging environment should remain separate from this legacy estate. Legacy data may later be imported selectively after review, but the historical cluster should not become the staging runtime.
 
 ## Current System Assessment
 
@@ -82,7 +94,7 @@ The recurring themes across both systems are:
 
 ## Recommended Next Steps
 
-1. map and review the old MongoDB data before any retirement decision
+1. verify the live consumers of the legacy Atlas databases and create a controlled, validated export before any retirement, transfer, or access-cleanup decision
 2. document environment variables and environment setup more rigorously
 3. add CI checks and branch protection before allowing changes into `main`
 4. add end-to-end coverage for the main flows in the current system
