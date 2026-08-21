@@ -141,6 +141,16 @@ Current system environments documented in this repository:
 - production database
 - development database
 
+### Current legacy Atlas status
+
+A read-only Atlas inventory completed on 21 August 2026 confirmed that the CWM `Pain App` project has an active MongoDB Atlas cluster in GCP `europe-west1`. The cluster contains both current/legacy Pain-Track databases and historical WM Platform/WelfareData-related databases.
+
+No Atlas backup or recoverable snapshot was enabled for this legacy cluster at the time of review. The cluster should therefore be preserved until required historical data has been exported and remaining runtime dependencies have been checked.
+
+This is legacy infrastructure. New WFI Processograms staging is intentionally designed around a fresh, isolated institutional database environment rather than reusing this cluster or its credentials.
+
+Atlas organization/project ownership, access policy, database credentials, and network rules are operational security information and are not reproduced in this public document.
+
 The domain collections and relationships are described in detail in [01_architecture_and_repositories.md](01_architecture_and_repositories.md).
 
 ## External Integrations
