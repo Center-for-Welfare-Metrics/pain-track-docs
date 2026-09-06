@@ -1,8 +1,10 @@
 # Functional User Flows
 
-This document explains the main user-facing flows in plain language.
+This document preserves the main user-facing flows represented by the current-generation source in plain language.
 
-It focuses on how the system behaves for users rather than on implementation details.
+It focuses on designed and historically implemented behavior rather than implementation details.
+
+> **Availability boundary (2026-09-06):** Pain Track is intentionally paused and its backend remains hibernated and private. The flows below are a preservation and future-validation reference, not a statement that login, registration, recovery, contact, AI, or data-entry functions currently work at the public website.
 
 ## The Big Picture
 

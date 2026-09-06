@@ -1,84 +1,76 @@
 # Pain Track Documentation
 
-This repository is a documentation hub for the Pain Track ecosystem. It does not contain the application source code itself. Instead, it consolidates the material needed to understand the current and legacy Pain Track systems, their architecture, technical stack, user flows, supporting integrations, and the highest-priority technical and security risks.
+This public repository is the canonical technical documentation hub for the current Pain Track source and its retained legacy implementations. It does not contain the application source code and it is not an authority for Welfare Footprint Framework methodology.
 
-The repository is now organized around five canonical documents.
+## Current status
+
+**Pain Track is intentionally paused.** WFI has preserved the application source and institutional cloud project for possible reactivation or replacement, but has not reactivated the application, created a new deployment, or exposed a public backend.
+
+- The canonical current frontend source is the private WFI repository [`welfare-footprint-institute/pain-app-client`](https://github.com/welfare-footprint-institute/pain-app-client).
+- The canonical current backend source is [`welfare-footprint-institute/pain-app-server`](https://github.com/welfare-footprint-institute/pain-app-server).
+- The retained email-template source is [`welfare-footprint-institute/SesPainTrack`](https://github.com/welfare-footprint-institute/SesPainTrack).
+- The existing site at `https://www.pain-track.org/` is a continuity deployment in a Herikle-controlled Vercel project. It is not the institutional deployment target and must not be treated as proof that the WFI source is deployed.
+- The GCP project that preserves the hibernated backend resources is institutionally governed and billed by WFI. Its Cloud Run services remain private/disabled for public access, and the former automatic Cloud Build triggers are disabled.
+- Dependency remediation, credential retirement, an institutional logical backup, and any future runtime reconstruction remain outstanding and separately controlled work.
+
+Documentation below describes historical application behavior unless it explicitly says that a capability is currently available. Login, registration, recovery, contact, AI, and other backend-dependent flows should not be assumed operational while the system is paused.
 
 ## Purpose
 
-This repository exists to help technical and non-technical readers answer a few core questions:
+This repository preserves the material needed to understand:
 
-- What is the difference between the old and current Pain Track systems?
-- Which repositories and production services are still active?
-- How do the main flows work from a user and system perspective?
-- How is the data model organized?
-- Which integrations exist outside the core frontend and backend?
-- What are the main maintainability and security risks?
+- the current and legacy repository landscape;
+- the historical runtime architecture and application flows;
+- the MongoDB/Mongoose data model and scientific-calculation dependencies;
+- the supporting integrations and their reactivation implications;
+- the known maintainability and security risks that remain before any future deployment.
 
-In practice, this repository supports system review, onboarding, architecture discovery, risk assessment, and planning for future improvements or retirement decisions.
+## Canonical documents
 
-## Canonical Documents
+- [01_architecture_and_repositories.md](01_architecture_and_repositories.md): repository landscape, historical runtime architecture, data model, and relationship behavior
+- [02_technical_stack_and_infrastructure.md](02_technical_stack_and_infrastructure.md): stack, environments, historical deployment paths, integrations, and current pause state
+- [03_functional_user_flows.md](03_functional_user_flows.md): preserved description of historical login, episode, track, segment, guest, and discussion flows
+- [04_reconciliation_report.md](04_reconciliation_report.md): relationship between the legacy and later implementations
+- [05_risks_and_legacy_assessment.md](05_risks_and_legacy_assessment.md): maintainability, testing, dependency, legacy, and security risks
+- [aws_ses.md](aws_ses.md): retained AWS SES template component and its current dormant status
+- [server_security_review.md](server_security_review.md): source-level security findings that must be reconsidered before reactivation
+- [assets/](assets/): screenshots illustrating the historically implemented flows
 
-Read these files as the main documentation set:
+## Repository landscape
 
-- [01_architecture_and_repositories.md](01_architecture_and_repositories.md): repository landscape, runtime architecture, data model, and relationship behavior
-- [02_technical_stack_and_infrastructure.md](02_technical_stack_and_infrastructure.md): hosting, deployment model, environments, integrations, and configuration surfaces
-- [03_functional_user_flows.md](03_functional_user_flows.md): main login, episode, track, segment, guest, and discussion flows
-- [04_reconciliation_report.md](04_reconciliation_report.md): old documentation versus the current documented reality in this repository
-- [05_risks_and_legacy_assessment.md](05_risks_and_legacy_assessment.md): maintainability, testing, legacy, and security risks
+### Current WFI-owned repositories
 
-## Repository Contents
+- [`pain-app-client`](https://github.com/welfare-footprint-institute/pain-app-client) — canonical current frontend source; private; paused
+- [`pain-app-server`](https://github.com/welfare-footprint-institute/pain-app-server) — canonical current backend source; public source, with no public runtime implied
+- [`pain-track-docs`](https://github.com/welfare-footprint-institute/pain-track-docs) — this public technical documentation hub
+- [`SesPainTrack`](https://github.com/welfare-footprint-institute/SesPainTrack) — retained SES template source; not evidence of a currently usable WFI email service
 
-- [01_architecture_and_repositories.md](01_architecture_and_repositories.md): Main architecture and data-model reference
-- [02_technical_stack_and_infrastructure.md](02_technical_stack_and_infrastructure.md): Technical stack and infrastructure reference
-- [03_functional_user_flows.md](03_functional_user_flows.md): User-facing flow documentation
-- [04_reconciliation_report.md](04_reconciliation_report.md): Historical reconciliation between the old documentation and the current repository narrative
-- [05_risks_and_legacy_assessment.md](05_risks_and_legacy_assessment.md): Consolidated risk and legacy assessment
-- [aws_ses.md](aws_ses.md): Notes on the AWS SES email-template repository used by the current Pain Track backend
-- [server_security_review.md](server_security_review.md): Standalone security review with detailed findings and remediation guidance
-- [assets/](assets/): Screenshots referenced by the flow documentation
+### Excluded legacy repositories
 
-## What This Repo Explains
+- [`Center-for-Welfare-Metrics/old-pain-app-server`](https://github.com/Center-for-Welfare-Metrics/old-pain-app-server) — legacy backend retained for dependency and data-preservation review
+- [`Center-for-Welfare-Metrics/OLD-pain-track-client`](https://github.com/Center-for-Welfare-Metrics/OLD-pain-track-client) — legacy frontend retained for dependency and historical-behavior review
 
-Across the available Markdown files, this repository documents five main areas:
+The two legacy repositories were not part of the WFI ownership transfer and are not declared retired or safe to delete.
 
-1. System landscape: what the old and current Pain Track systems are, where they run, and how they relate.
-2. Product behavior: how users log in, create episodes, add tracks, and add segments.
-3. Data structure: how users, patients, episodes, tracks, segments, discussions, bookmarks, and auth-related records relate to each other.
-4. Integrations: how supporting services such as AWS SES fit into the platform.
-5. Risk profile: where the major operational, maintainability, and security concerns currently sit.
+## Scope and evidence boundary
 
-## Scope Notes
+- Architecture, data-model, and user-flow descriptions preserve the behavior represented by the source at the time of review; they are not service-availability claims.
+- Provider-side ownership, access, billing, backup, and recovery evidence is maintained in WFI's restricted institutional continuity record rather than this public repository.
+- No credentials, connection strings, database contents, or token-bearing provider links belong in this repository.
 
-- This repository is documentation-focused.
-- It summarizes both the legacy and active versions of Pain Track.
-- It includes both technical and plain-language explanations.
-- It captures known gaps, including missing tests, incomplete documentation, and confirmed security concerns.
+## Contributor guidance
 
-## Repo Summary
+- Write technical documentation in English and Markdown.
+- Put diagrams and screenshots in `assets/` and link them from the relevant document.
+- Treat reactivation, deployment, dependency modernization, credential changes, and provider configuration as separately approved work.
+- Preserve historical behavior and data-model documentation when adding current-status corrections.
 
-The purpose of this repository is to serve as a single place where someone can understand how Pain Track works, what is still in production, how the core domain is structured, and which areas need attention before future development, migration, or shutdown decisions are made.
+## Contact and maintenance
 
-## Ecosystem Repositories
+**Organization:** Welfare Footprint Institute
 
-The following repositories compose the Pain-Track platform:
+**Institutional owner:** Wladimir J. Alonso
 
-* **[pain-app-server](https://github.com/Center-for-Welfare-Metrics/pain-app-server):** The primary Node.js/TypeScript Backend API.
-* **[pain-app-frontend](https://github.com/Herikle/pain-app-client):** The main user interface.
-* **[legacy-backend-old](https://github.com/Center-for-Welfare-Metrics/old-pain-app-server):** Deprecated backend version (reference only).
-* **[legacy-frontend-old](https://github.com/Center-for-Welfare-Metrics/OLD-pain-track-client):** Deprecated frontend version (reference only).
-* **[aws_ses](https://github.com/Center-for-Welfare-Metrics/SesPainTrack): Repository for AWS SES email templates used by the current backend.
+**Technical maintenance contact:** Moritz Bormann
 
----
-
-## Guidelines for Contributors
-* **Language:** All documentation must be written in **English**.
-* **Format:** Documents should use **Markdown (.md)** to ensure version control compatibility and ease of AI processing.
-* **Assets:** Any diagrams or screenshots should be stored in an `/assets` folder and linked within the relevant document.
-
----
-
-## Contact & Maintenance
-**Organization:** Center for Welfare Metrics  
-**Project Lead:** Wladimir J. Alonso  
-**Status:** Phase 1 - Technical Mapping (In Progress)
+**Status as of 2026-09-06:** Institutionally preserved and intentionally paused; ownership work is only partially complete across the wider system.

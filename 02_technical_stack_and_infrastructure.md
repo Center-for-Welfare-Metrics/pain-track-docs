@@ -4,7 +4,11 @@ This document summarizes the technologies, environments, deployment paths, integ
 
 Classification rule used in this document:
 
-- statements about code, deployment, and environment variables are directly confirmed by the source material unless a statement is explicitly labeled as inferred from structure
+- **source-confirmed** statements describe the checked-in application or documentation;
+- **provider-reported** statements record dated infrastructure verification and are not inferred from source alone;
+- historical runtime descriptions do not imply current availability.
+
+> **Current status (2026-09-06):** Pain Track is intentionally paused. WFI owns the canonical current-generation repositories and the GCP project that retains the backend resources. The backend remains hibernated and private, former Cloud Build triggers are disabled, and no new frontend or backend was deployed.
 
 ## Stack Summary
 
@@ -32,60 +36,58 @@ Classification rule used in this document:
 - backend runtime: Node.js with Express
 - backend language note: backend uses TypeScript
 - API style: REST
-- hosting: Vercel for frontend, Google Cloud Run for backend
+- historical hosting architecture: Vercel for frontend, Google Cloud Run for backend
+- canonical source ownership: Welfare Footprint Institute
+- current runtime state: intentionally paused; no public WFI backend
 - database: MongoDB Atlas
-- email service: AWS SES
-- AI dependency: OpenAI via configured backend environment variables
-- captcha and OAuth integrations: Google services
+- historical email integration: AWS SES
+- historical AI dependency: OpenAI via configured backend environment variables
+- historical captcha and OAuth integrations: Google services
 
 ## Public and Environment URLs
 
 ### Old system
 
-- public frontend: `https://cp.pain-track.org`
-- public backend: `https://oldpaintrackserver-840926881618.us-central1.run.app`
-- calculus service: `https://calculus-840926881618.us-central1.run.app`
+- historical public frontend: `https://cp.pain-track.org`
+- historical backend endpoint: `https://oldpaintrackserver-840926881618.us-central1.run.app`
+- historical calculus-service endpoint: `https://calculus-840926881618.us-central1.run.app`
 
 ### Current system
 
-- public frontend: `https://www.pain-track.org/`
-- production backend: `https://newpainappserver-840926881618.us-central1.run.app`
-- development backend: `https://painappserverdev-840926881618.us-central1.run.app`
-- development branch: `develop`
+- continuity frontend URL: `https://www.pain-track.org/`; the Vercel project is controlled by Herikle and is not the WFI institutional deployment target
+- historical production backend identifier: `newpainappserver`
+- historical development backend identifier: `painappserverdev`
+- historical development branch: `develop`
+
+The retained Cloud Run services are private/disabled for public access. The identifiers above preserve architecture and recovery context; they are not operational endpoint claims.
 
 ## Deployment Model
 
-Directly confirmed for both generations:
+Historical source documentation described GitHub-to-Vercel frontend deployment and GitHub-to-Cloud-Build/Cloud-Run backend deployment. The current control state is different:
 
-1. Code is pushed to GitHub.
-2. Frontend deployment is tied to Herikle-controlled GitHub ownership because Vercel is using the free plan.
-3. Backend deployment happens through Google Cloud Run when changes reach `main`.
+1. The four current repositories are owned by WFI.
+2. The Herikle-controlled Vercel project remains a separate continuity deployment; it was not transferred and is not evidence that the WFI frontend repository deploys automatically.
+3. The three identified Cloud Build triggers were disabled. Merging to `main` does not automatically deploy the hibernated backend.
+4. The server `main` branch now requires a pull request and one approving review. Review dismissal is restricted to the designated WFI maintainer, while repository/organization administrators retain GitHub's inherent administrative authority.
+5. No new CI test gate, frontend hosting target, or deployment pipeline was created.
 
-Important limitations:
-
-- there is no GitHub Actions setup for either the client or the server
-- there is no test pipeline before changes reach `main`
-- frontend deployment is operationally centralized around one person
-
-Recommended improvement already identified in the source documents:
-
-- add CI checks and branch protection so tests run before merge or deployment
+The absence of automatic deployment is intentional while the application remains paused.
 
 ## Environment Separation
 
 ### Old system
 
-The old system is treated as a production-like legacy environment kept online mainly for historical access.
+The old source describes a production-like legacy environment. Whether any legacy service is still reachable was not established by this documentation task.
 
-### Current system
+### Current-generation source
 
-The current system documents separate production and development environments.
+The source documents separate production and development environments historically.
 
 Stated rule:
 
 - any non-production URL uses the development backend and the development database
 
-Why this matters:
+Why this will matter if reactivation is approved:
 
 - safer feature validation
 - lower risk of mixing test activity with real user data
@@ -147,7 +149,7 @@ The domain collections and relationships are described in detail in [01_architec
 
 ### Calculus service
 
-The legacy system depends on an additional service used for episode-related calculations.
+The legacy source depended on an additional service used for episode-related calculations.
 
 - URL: `https://calculus-840926881618.us-central1.run.app`
 - language note: Python
@@ -159,7 +161,7 @@ Operational implication:
 
 ### AWS SES
 
-The current app sends email through AWS SES.
+The retained backend was designed to send email through AWS SES. That historical integration is not evidence of a current WFI-controlled or operational email service.
 
 The supporting template repository is documented in [aws_ses.md](aws_ses.md).
 
@@ -169,7 +171,7 @@ What the template repository does:
 - pushes template updates to AWS SES with update scripts
 - does not send the emails itself
 
-Pain Track email flows currently rely on four documented templates:
+The source defines four email templates:
 
 - contact form
 - recovery password
@@ -183,19 +185,21 @@ Relevant credentials:
 
 ### Google integrations
 
-The documentation references Google services for:
+The source references Google services for:
 
 - OAuth login
 - reCAPTCHA
 - project configuration
 
+The attempted OAuth branding update did not persist because Google required additional homepage and privacy-policy fields. OAuth metadata therefore remains unresolved and is not a current availability claim.
+
 ### OpenAI integration
 
-The current backend is configured to use OpenAI through environment variables and a configurable model identifier.
+The retained backend source is configured to use OpenAI through environment variables and a configurable model identifier.
 
-Known operational issue:
+Issue recorded by the earlier source/configuration review:
 
-- the configured model no longer exists, which currently breaks model-dependent backend routes
+- the configured model no longer existed at the time of review, so model-dependent routes would require configuration and testing before reactivation
 
 ## Codebase Technology Notes
 
@@ -258,17 +262,17 @@ So local startup guidance exists and the basic workflow is documented.
 
 ### Operational maturity limits
 
-The setup is documented, but several supporting operational controls are absent.
+The setup is documented, but several controls required for safe reactivation remain absent or incomplete.
 
-The following capabilities do not currently exist in the documented setup:
+Current verified controls and limits:
 
-- CI pipeline
-- branch protection rules
-- observability or logging strategy
-- secret rotation procedures
-- backup and recovery procedures
-- rate limiting or abuse controls at infrastructure level
+- the server `main` branch has pull-request and one-review protection;
+- the former Cloud Build triggers are disabled, preserving hibernation;
+- no complete application CI/test pipeline is documented;
+- no approved institutional logical backup has been executed;
+- secret retirement/rotation remains outstanding;
+- observability, recovery testing, and infrastructure-level abuse controls require review before reactivation.
 
 ## Operational Summary
 
-Pain Track runs as a GitHub-backed, Vercel-and-Cloud-Run application stack on top of MongoDB Atlas, with additional dependencies on AWS SES, Google services, and OpenAI. The repository documentation directly confirms how the stack is deployed and which services it depends on, and it also directly confirms that controls such as CI, branch protection, observability, secret rotation, backups, and abuse protections are not in place.
+Pain Track is preserved as a GitHub-backed Next.js/Node.js application whose historical architecture used Vercel, Cloud Run, MongoDB Atlas, AWS SES, Google services, and OpenAI. WFI now controls the canonical current-generation source and the hibernated GCP project, but the existing Vercel continuity deployment remains separate. The system is not reactivated: there is no public WFI backend, no automatic backend deployment, and no completed institutional logical backup. Dependency remediation, credential retirement, recovery validation, and integration decisions remain future gates.

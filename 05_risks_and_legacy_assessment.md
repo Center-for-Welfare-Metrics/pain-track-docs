@@ -2,9 +2,11 @@
 
 This document consolidates the main maintainability, testing, operational, and security risks described in this repository.
 
+> **Current status (2026-09-06):** both generations are retained for preservation and review. The current-generation application is intentionally paused, its backend remains private/hibernated, and no reactivation or new deployment has occurred.
+
 ## Legacy System Assessment
 
-The old Pain Track system should be treated as a legacy system kept online mainly so users can access historical information.
+The old Pain Track repositories should be treated as legacy source retained for dependency, data-preservation, and historical-behavior review. Current public availability was not established by this documentation task.
 
 ### Main legacy risks
 
@@ -21,11 +23,11 @@ The old Pain Track system should be treated as a legacy system kept online mainl
 
 ### Legacy shutdown caution
 
-The source documents explicitly warn that important historical information could be lost if the old system is shut down before the MongoDB data is reviewed.
+The source documents historically warned that important information could be lost if legacy services were shut down before MongoDB data was reviewed. That warning remains a preservation constraint, not evidence that a legacy service is currently online.
 
 ## Current System Assessment
 
-The current Pain Track system is the active platform, but the repository documents several quality and operational concerns.
+The current-generation source is WFI's canonical implementation, but it is not an active platform. The repository documents several quality and operational concerns that must be considered before either reactivation or reuse in a replacement.
 
 ### Main current-system risks
 
@@ -38,7 +40,7 @@ The current Pain Track system is the active platform, but the repository documen
 7. environment inconsistencies between development and production
 8. undocumented environment configuration details
 9. lack of observability
-10. no automated test gate before main-branch changes
+10. no complete automated test gate before main-branch changes
 
 ### Known product and technical issues
 
@@ -78,12 +80,21 @@ The recurring themes across both systems are:
 - fragile ownership and access control rules
 - insufficient automated testing
 - dependency drift and stale integrations
-- concentrated deployment ownership
+- unresolved credential and third-party integration custody
+
+## Controls Added During Institutionalization
+
+- WFI now owns the four current-generation repositories.
+- The server `main` branch requires a pull request and one approval.
+- The three former Cloud Build triggers are disabled, preventing an ordinary merge from automatically deploying the hibernated backend.
+- The GCP project is under WFI organization and billing governance.
+
+These controls preserve ownership and hibernation. They do not remediate dependency or source-level security findings, create a verified logical database backup, retire old credentials, or make the application safe to reactivate.
 
 ## Recommended Next Steps
 
-1. map and review the old MongoDB data before any retirement decision
-2. document environment variables and environment setup more rigorously
-3. add CI checks and branch protection before allowing changes into `main`
-4. add end-to-end coverage for the main flows in the current system
-5. remediate the documented authorization and auth-token issues before feature work
+1. execute a separately approved institutional backup and isolated restoration verification before access cleanup
+2. retire or rotate credentials only after dependencies and shared-resource effects are verified
+3. keep the system hibernated until WFI chooses between rehabilitation and a compatible replacement
+4. if reactivation is chosen, add CI and end-to-end coverage for the preserved critical flows
+5. remediate the documented authorization, auth-token, and dependency issues before exposing a backend
