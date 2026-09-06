@@ -1,12 +1,10 @@
 # SesPainTrack
 
-This repository stores and publishes AWS SES email templates for the Pain Track application.
+This document describes the retained AWS SES email-template source for Pain Track.
 
-The application that sends the emails is the current `pain-app-server`.
+> **Current status (2026-09-06):** WFI owns the canonical template repository at [`welfare-footprint-institute/SesPainTrack`](https://github.com/welfare-footprint-institute/SesPainTrack), but the application is paused and email-provider replacement or reactivation is deferred. Repository ownership does not prove control of the historical AWS account, SES identities, templates, or credentials.
 
-- API URL: https://newpainappserver-840926881618.us-central1.run.app
-- Website URL: https://www.pain-track.org/
-- GitHub repository: https://github.com/Center-for-Welfare-Metrics/pain-app-server
+The retained backend source that historically sent the emails is [`welfare-footprint-institute/pain-app-server`](https://github.com/welfare-footprint-institute/pain-app-server).
 
 ## What This Project Does
 
@@ -22,14 +20,12 @@ The project does not send emails directly. It updates the template definitions t
 
 This repository is only responsible for managing SES templates.
 
-The actual email sending happens in the current Pain Track backend:
+Historically, actual email sending was implemented in the Pain Track backend:
 
 - Application: `pain-app-server`
-- API URL: https://newpainappserver-840926881618.us-central1.run.app
-- Website URL: https://www.pain-track.org/
-- GitHub repository: https://github.com/Center-for-Welfare-Metrics/pain-app-server
+- GitHub repository: https://github.com/welfare-footprint-institute/pain-app-server
 
-In practice, this means:
+In the source architecture, this means:
 
 - This repository updates the templates stored in AWS SES
 - The `pain-app-server` uses those templates when it needs to send emails to users
@@ -161,7 +157,7 @@ Build TypeScript:
 npm run build
 ```
 
-Push individual templates to AWS SES:
+Update individual templates in AWS SES:
 
 ```bash
 npm run send:template:contact
@@ -171,6 +167,8 @@ npm run send:template:set-password
 ```
 
 These commands use `ts-node`, so they execute the TypeScript update scripts directly without a separate build step.
+
+> Running any `send:template:*` command is an external AWS write and requires separately approved institutional credentials and provider ownership. It must not be treated as a documentation or local-build step.
 
 ## Notes
 

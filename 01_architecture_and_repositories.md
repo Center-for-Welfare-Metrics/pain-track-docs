@@ -2,17 +2,19 @@
 
 This document describes the repository landscape, runtime architecture, data model, and relationship behavior for the Pain Track ecosystem.
 
+> **Availability boundary (2026-09-06):** the current-generation source is institutionally preserved but the application is intentionally paused. Runtime sections below document the architecture that was deployed historically; they do not assert that login, APIs, email, AI, or other interactive functions are currently available.
+
 ## Repository Landscape
 
-| Area | Old system | Current system |
+| Area | Legacy system | Current-generation source |
 | --- | --- | --- |
 | Frontend repository | `OLD-pain-track-client` | `pain-app-client` |
-| Frontend GitHub | https://github.com/Center-for-Welfare-Metrics/OLD-pain-track-client | https://github.com/Herikle/pain-app-client |
+| Frontend GitHub | https://github.com/Center-for-Welfare-Metrics/OLD-pain-track-client | https://github.com/welfare-footprint-institute/pain-app-client |
 | Backend repository | `old-pain-app-server` | `pain-app-server` |
-| Backend GitHub | https://github.com/Center-for-Welfare-Metrics/old-pain-app-server | https://github.com/Center-for-Welfare-Metrics/pain-app-server |
-| Public frontend | https://cp.pain-track.org | https://www.pain-track.org/ |
-| Public backend | https://oldpaintrackserver-840926881618.us-central1.run.app | https://newpainappserver-840926881618.us-central1.run.app |
-| Status | Legacy system kept mainly for historical access | Active system |
+| Backend GitHub | https://github.com/Center-for-Welfare-Metrics/old-pain-app-server | https://github.com/welfare-footprint-institute/pain-app-server |
+| Documented frontend URL | `https://cp.pain-track.org` | `https://www.pain-track.org/` |
+| Historical backend identifier | `oldpaintrackserver` | `newpainappserver` |
+| Current status | Excluded legacy source; dependency and preservation review still required | Canonical WFI source; intentionally paused |
 
 ### Repository Roles
 
@@ -34,34 +36,36 @@ Examples of backend responsibilities:
 - creating episodes, tracks, and segments
 - returning data for bookmarks, discussions, and exports
 
-### Deployment Ownership Constraint
+### Source and Deployment Custody
 
-For both the old and current frontend deployments, Vercel is tied to repositories under Herikle's personal GitHub ownership because the deployment is using the free plan.
+The current frontend source was transferred to WFI and is now canonical at `welfare-footprint-institute/pain-app-client`. The existing `www.pain-track.org` Vercel project remains under Herikle's control and was deliberately left unchanged for continuity. Transferring the repository did not transfer that Vercel project and does not establish which source revision it serves.
 
-Practical impact:
-
-- Herikle is currently the only person who can deploy frontend changes
-- backend deployment is less restricted because pushes to `main` can trigger Cloud Run deployment behavior
+The current backend source is also WFI-owned. Its former Cloud Build triggers were disabled during the ownership migration, so a push or merge does not automatically deploy it. The retained Cloud Run services remain hibernated and are not public application endpoints.
 
 ## Runtime Architecture
 
 ### Old system
 
-- Browser frontend deployed at `https://cp.pain-track.org`
-- REST backend deployed at `https://oldpaintrackserver-840926881618.us-central1.run.app`
+- Browser frontend historically deployed at `https://cp.pain-track.org`
+- REST backend historically deployed at `https://oldpaintrackserver-840926881618.us-central1.run.app`
 - MongoDB Atlas database
-- Additional calculus service at `https://calculus-840926881618.us-central1.run.app`
+- Historical calculus-service endpoint: `https://calculus-840926881618.us-central1.run.app`
 
-The calculus service is an external dependency used for episode-related calculations. Its repository is currently unknown.
+The calculus service was an external dependency used for episode-related calculations. Its repository remains unknown.
 
-### Current system
+### Current-generation architecture (historical behavior)
 
-- Browser frontend deployed at `https://www.pain-track.org/`
-- REST backend deployed at `https://newpainappserver-840926881618.us-central1.run.app`
+- Browser frontend historically associated with `https://www.pain-track.org/`
+- REST backend historically associated with the `newpainappserver` Cloud Run service
 - MongoDB Atlas databases for production and development
-- AWS SES template repository documented in [aws_ses.md](aws_ses.md)
+- AWS SES template source documented in [aws_ses.md](aws_ses.md)
 
-The current app uses AWS SES for email delivery, but template management lives in a separate repository and is documented independently.
+Current control state:
+
+- WFI owns the canonical frontend, backend, documentation, and SES-template repositories.
+- The Herikle-controlled Vercel deployment is separate from the canonical WFI frontend source.
+- The GCP backend project remains hibernated; no public backend or new deployment was created during institutionalization.
+- AWS SES and other external integrations remain deferred and must not be assumed operational.
 
 ## Data Architecture
 
@@ -280,6 +284,8 @@ Main patterns:
 - bookmark lists populate the bookmarked entity and selected counts
 
 ## Collection Inventory Snapshots
+
+The inventories below are historical snapshots retained for data-model and preservation planning. They are not a current provider-side verification and must not be used to infer that a database or runtime is active.
 
 ### Old system database collections
 

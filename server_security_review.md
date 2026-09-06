@@ -2,6 +2,8 @@
 
 Date: 2026-04-18
 
+Status note: this is a historical static source review. The backend is intentionally hibernated and private as of 2026-09-06, so the findings do not imply a currently public service. They remain reactivation gates unless a later code review shows that they were fixed or are unreachable. Repository transfer and branch protection did not remediate them.
+
 This document summarizes the vulnerabilities identified during a static security review of the repository.
 
 ## Scope
@@ -351,10 +353,10 @@ Impact:
 
 - If sensitive dotfiles are ever placed under the served directory, they will be exposed over HTTP.
 
-Current deployment note:
+Historical deployment note:
 
-- In the current deployment model, this is mitigated in practice because the application runs in Google Cloud Run inside a Docker container, and the deployed image/layout currently prevents sensitive dotfiles from being exposed from the served path.
-- This should still be treated as a code-level defense-in-depth issue, because the risk can reappear if the image contents, build output, or static serving path changes later.
+- The reviewed deployment layout used a Google Cloud Run container whose served path was not observed to expose sensitive dotfiles.
+- The service is now hibernated/private. This remains a code-level defense-in-depth issue because it can reappear if the image contents, build output, static serving path, or future host changes.
 
 Recommended fix:
 
